@@ -32,12 +32,12 @@ namespace U {
 	*/
 
 	// Swap to UTF-8
-	FORCEINLINE std::string ToUTF8(std::wstring_view txt) {
+	__forceinline std::string ToUTF8(std::wstring_view txt) {
 		if (txt.empty()) // Check if our string is empty so we do not waste time
 			return "";
 
 		// Obtain out string size
-		std::size_t Size = WideCharToMultiByte(CP_UTF8, 0, txt.data(), txt.size(), 0, 0, 0, 0);
+		unsigned Size = WideCharToMultiByte(CP_UTF8, 0, txt.data(), txt.size(), 0, 0, 0, 0);
 
 		// Make an out string
 		std::string Ret = std::string(Size, 0);
@@ -49,12 +49,12 @@ namespace U {
 	}
 
 	// Swap to ANSI
-	FORCEINLINE std::wstring ToANSI(std::string_view txt) {
+	__forceinline std::wstring ToANSI(std::string_view txt) {
 		if (txt.empty()) // Check if our string is empty so we do not waste time
 			return L"";
 
 		// Obtain out string size
-		std::size_t size = MultiByteToWideChar(CP_UTF8, 0, txt.data(), txt.size(), 0, 0);
+		unsigned size = MultiByteToWideChar(CP_UTF8, 0, txt.data(), txt.size(), 0, 0);
 
 		// Make an out string
 		std::wstring ret = std::wstring(size, 0);

@@ -18,127 +18,127 @@
     <ClInclude Include="includes.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
-    <ClInclude Include="core\memory.h">
+    <ClInclude Include="cheat\core\memory.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
-    <ClInclude Include="core\helpers.h">
+    <ClInclude Include="cheat\core\helpers.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
     <ClInclude Include="utils.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
-    <ClInclude Include="core\render.h">
+    <ClInclude Include="cheat\core\render.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
-    <ClInclude Include="core\security.h">
+    <ClInclude Include="cheat\core\security.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
-    <ClInclude Include="core\network.h">
+    <ClInclude Include="cheat\core\network.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
-    <ClInclude Include="dependencies\imgui\imconfig.h">
+    <ClInclude Include="externs\imgui\imconfig.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
-    <ClInclude Include="dependencies\imgui\imgui.h">
+    <ClInclude Include="externs\imgui\imgui.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
-    <ClInclude Include="dependencies\imgui\imgui_freetype.h">
+    <ClInclude Include="externs\imgui\imgui_freetype.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
-    <ClInclude Include="dependencies\imgui\imgui_impl_dx9.h">
+    <ClInclude Include="externs\imgui\imgui_impl_dx9.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
-    <ClInclude Include="dependencies\imgui\imgui_impl_win32.h">
+    <ClInclude Include="externs\imgui\imgui_impl_win32.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
-    <ClInclude Include="dependencies\imgui\imgui_internal.h">
+    <ClInclude Include="externs\imgui\imgui_internal.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
-    <ClInclude Include="dependencies\imgui\imstb_rectpack.h">
+    <ClInclude Include="externs\imgui\imstb_rectpack.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
-    <ClInclude Include="dependencies\imgui\imstb_textedit.h">
+    <ClInclude Include="externs\imgui\imstb_textedit.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
-    <ClInclude Include="dependencies\imgui\imstb_truetype.h">
+    <ClInclude Include="externs\imgui\imstb_truetype.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
     <ClInclude Include="sdk.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
-    <ClInclude Include="dependencies\antidbg\antidbg.h">
+    <ClInclude Include="externs\antidbg\antidbg.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
-    <ClInclude Include="sdk\classes.h">
+    <ClInclude Include="ingame\classes.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
-    <ClInclude Include="sdk\platform.h">
+    <ClInclude Include="cheat\platform.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
-    <ClInclude Include="sdk\interfaces.h">
+    <ClInclude Include="ingame\interfaces.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
-    <ClInclude Include="core\globals.h">
+    <ClInclude Include="cheat\core\globals.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
-    <ClInclude Include="core\math.h">
+    <ClInclude Include="cheat\core\math.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
-    <ClInclude Include="sdk\types\vector.h">
+    <ClInclude Include="ingame\types\vector.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
-    <ClInclude Include="sdk\types\angle.h">
+    <ClInclude Include="ingame\types\angle.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
-    <ClInclude Include="sdk\types\matrix.h">
+    <ClInclude Include="ingame\types\matrix.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
-    <ClInclude Include="core\logs.h">
+    <ClInclude Include="cheat\core\logs.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
-    <ClInclude Include="sdk\types\clientclass.h">
+    <ClInclude Include="ingame\types\clientclass.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
-    <ClInclude Include="sdk\types\recv.h">
+    <ClInclude Include="ingame\types\recv.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
-    <ClInclude Include="sdk\interfaces\engine.h">
+    <ClInclude Include="ingame\interfaces\engine.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
-    <ClInclude Include="sdk\interfaces\netchannel.h">
+    <ClInclude Include="ingame\interfaces\netchannel.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
-    <ClInclude Include="sdk\types\bitbuf.h">
+    <ClInclude Include="ingame\types\bitbuf.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
-    <ClInclude Include="additional\eventmanager.h">
+    <ClInclude Include="cheat\additional\eventmanager.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
-    <ClInclude Include="sdk\interfaces\events.h">
+    <ClInclude Include="ingame\interfaces\events.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
-    <ClInclude Include="sdk\interfaces\client.h">
+    <ClInclude Include="ingame\interfaces\client.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
-    <ClInclude Include="additional\timer.h">
+    <ClInclude Include="cheat\additional\timer.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
-    <ClInclude Include="sdk\types\tracehelpers.h">
+    <ClInclude Include="ingame\types\tracehelpers.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
-    <ClInclude Include="sdk\types\handle.h">
+    <ClInclude Include="ingame\types\handle.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
-    <ClInclude Include="sdk\types\surfaceflags.h">
+    <ClInclude Include="ingame\types\surfaceflags.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
-    <ClInclude Include="sdk\interfaces\prediction.h">
+    <ClInclude Include="ingame\interfaces\prediction.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
-    <ClInclude Include="sdk\interfaces\globalvars.h">
+    <ClInclude Include="ingame\interfaces\globalvars.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
-    <ClInclude Include="sdk\interfaces\materialsystem.h">
+    <ClInclude Include="ingame\interfaces\materialsystem.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
   </ItemGroup>
@@ -146,76 +146,76 @@
     <ClCompile Include="dllmain.cpp">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
-    <ClCompile Include="core\memory.cpp">
+    <ClCompile Include="cheat\core\memory.cpp">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
-    <ClCompile Include="core\helpers.cpp">
+    <ClCompile Include="cheat\core\helpers.cpp">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
-    <ClCompile Include="core\render.cpp">
+    <ClCompile Include="cheat\core\render.cpp">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
-    <ClCompile Include="core\security.cpp">
+    <ClCompile Include="cheat\core\security.cpp">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
     <ClCompile Include="utils.cpp">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
-    <ClCompile Include="core\network.cpp">
+    <ClCompile Include="cheat\core\network.cpp">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
-    <ClCompile Include="dependencies\imgui\imgui.cpp">
+    <ClCompile Include="externs\imgui\imgui.cpp">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
-    <ClCompile Include="dependencies\imgui\imgui_demo.cpp">
+    <ClCompile Include="externs\imgui\imgui_demo.cpp">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
-    <ClCompile Include="dependencies\imgui\imgui_draw.cpp">
+    <ClCompile Include="externs\imgui\imgui_draw.cpp">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
-    <ClCompile Include="dependencies\imgui\imgui_impl_dx9.cpp">
+    <ClCompile Include="externs\imgui\imgui_impl_dx9.cpp">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
-    <ClCompile Include="dependencies\imgui\imgui_impl_win32.cpp">
+    <ClCompile Include="externs\imgui\imgui_impl_win32.cpp">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
-    <ClCompile Include="dependencies\imgui\imgui_tables.cpp">
+    <ClCompile Include="externs\imgui\imgui_tables.cpp">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
-    <ClCompile Include="dependencies\imgui\imgui_widgets.cpp">
+    <ClCompile Include="externs\imgui\imgui_widgets.cpp">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
     <ClCompile Include="sdk.cpp">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
-    <ClCompile Include="dependencies\antidbg\antidbg.cpp">
+    <ClCompile Include="externs\antidbg\antidbg.cpp">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
-    <ClCompile Include="sdk\classes.cpp">
+    <ClCompile Include="ingame\classes.cpp">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
-    <ClCompile Include="sdk\platform.cpp">
+    <ClCompile Include="cheat\platform.cpp">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
-    <ClCompile Include="sdk\interfaces.cpp">
+    <ClCompile Include="ingame\interfaces.cpp">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
-    <ClCompile Include="core\math.cpp">
+    <ClCompile Include="cheat\core\math.cpp">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
-    <ClCompile Include="sdk\types\matrix.cpp">
+    <ClCompile Include="ingame\types\matrix.cpp">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
-    <ClCompile Include="core\logs.cpp">
+    <ClCompile Include="cheat\core\logs.cpp">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
-    <ClCompile Include="sdk\types\bitbuf.cpp">
+    <ClCompile Include="ingame\types\bitbuf.cpp">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
-    <ClCompile Include="additional\eventmanager.cpp">
+    <ClCompile Include="cheat\additional\eventmanager.cpp">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
-    <ClCompile Include="additional\timer.cpp">
+    <ClCompile Include="cheat\additional\timer.cpp">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
   </ItemGroup>
