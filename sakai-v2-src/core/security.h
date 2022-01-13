@@ -19,15 +19,16 @@
 * Utils for securing your .dll.
 * @Anti-debug: https://github.com/HackOvert/AntiDBG/tree/master/antidbg.
 */
-namespace SEC {
-
+namespace SEC
+{
 	/*
 	* Anti-debug check implementation.
 	*/
-	namespace ADBG {
-
+	namespace ADBG
+	{
 		// Check for debugging
-		FORCEINLINE bool Check() {
+		FORCEINLINE bool Check()
+		{
 #ifdef _DEBUG
 			return false;
 #else
@@ -97,7 +98,6 @@ namespace SEC {
 
 	// Prime used for FNV hashing
 	constexpr std::uint64_t m_Prime = 0x811C9DC5;
-
 	// Seed for xor hasing
 	constexpr std::uint64_t m_XorSeed = 0x811C9DC5 / 100 * static_cast<int>(__TIME__[6]);
 
@@ -107,26 +107,28 @@ namespace SEC {
 	* @Constructor of Xor_t xores string symbol with prime seed.
 	*	Decrypt() function does the same thing but with encryped buffer.
 	*/
-	struct Xor_t {
-
+	struct Xor_t
+	{
 		// Constructor encrypts the string
-		Xor_t(std::string S) {
+		Xor_t(std::string S)
+		{
 			// Iterate through all string symbols
-			for (auto it = 0; it != S.length(); it++) {
-
+			for (auto it = 0; it != S.length(); it++)
+			{
 				// XOR current symbol with seed
 				m_Encrypted[it] = S[it] ^ m_XorSeed;
 			}
 		}
 
 		// Decrypt() decrypts the string
-		FORCEINLINE std::string Decrypt() {
+		FORCEINLINE std::string Decrypt()
+		{
 			// Create a buffer to store string
 			std::string Buffer;
 
 			// Iterate through all string symbols
-			for (auto it = 0; it != m_Encrypted.length(); it++) {
-
+			for (auto it = 0; it != m_Encrypted.length(); it++)
+			{
 				// XOR encrypted symbol with seed
 				Buffer[it] = m_Encrypted[it] ^ m_XorSeed;
 			}
@@ -138,25 +140,28 @@ namespace SEC {
 		std::string m_Encrypted;
 	};
 	
-	struct WXor_t {
+	struct WXor_t
+	{
 		// Constructor encrypts the wstring
-		WXor_t(std::wstring S) {
+		WXor_t(std::wstring S)
+		{
 			// Iterate through all wstring symbols
-			for (auto it = 0; it != S.length(); it++) {
-
+			for (auto it = 0; it != S.length(); it++)
+			{
 				// XOR current symbol with seed
 				m_Encrypted[it] = S[it] ^ m_XorSeed;
 			}
 		}
 
 		// Decrypt() decrypts the wstring
-		FORCEINLINE std::wstring Decrypt() {
-
+		FORCEINLINE std::wstring Decrypt()
+		{
 			// Create a buffer to store wstring
 			std::wstring Buffer;
 
 			// Iterate through all wstring symbols
-			for (auto it = 0; it != m_Encrypted.length(); it++) {
+			for (auto it = 0; it != m_Encrypted.length(); it++)
+			{
 				// XOR encrypted symbol with seed
 				Buffer[it] = m_Encrypted[it] ^ m_XorSeed;
 			}
@@ -185,7 +190,8 @@ namespace SEC {
 	*/
 
 	// Symbol type
-	enum ERandType {
+	enum ERandType : int
+	{
 		RT_INT,
 		RT_CHAR,
 		RT_UNSIGNED
@@ -196,7 +202,8 @@ namespace SEC {
 	void* RandomT();
 }
 
-namespace G {
+namespace G
+{
 	// System directory/enviroment
 	extern char* m_SystemEnv;
 }

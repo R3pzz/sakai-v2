@@ -5,34 +5,33 @@
 // Used for align
 #include "../platform.h"
 
-class CMatrix3x4 {
+class CMatrix3x4
+{
 public:
 	~CMatrix3x4() = default;
 
 	CMatrix3x4() {}
-	CMatrix3x4(float m00, float m01, float m02, float m03, float m10, float m11, float m12, float m13, float m20, float m21, float m22, float m23) {
+
+	CMatrix3x4(float m00, float m01, float m02, float m03, float m10, float m11, float m12, float m13, float m20, float m21, float m22, float m23)
+	{
 		m_Matrix[0][0] = m00; m_Matrix[0][1] = m01; m_Matrix[0][2] = m02; m_Matrix[0][3] = m03;
 		m_Matrix[1][0] = m10; m_Matrix[1][1] = m11; m_Matrix[1][2] = m12; m_Matrix[1][3] = m13;
 		m_Matrix[2][0] = m20; m_Matrix[2][1] = m21; m_Matrix[2][2] = m22; m_Matrix[2][3] = m23;
 	}
 
-	CMatrix3x4(const CVector3& xAxis, const CVector3& yAxis, const CVector3& zAxis, const CVector3& vecOrigin) {
+	CMatrix3x4(const CVector3& xAxis, const CVector3& yAxis, const CVector3& zAxis, const CVector3& vecOrigin) { }
 
-	}
+	CMatrix3x4(const QAngle& Angle) { InitFromQAngles(Angle); }
 
-	CMatrix3x4(const QAngle& Angle) {
-		InitFromQAngles(Angle);
-	}
+	CMatrix3x4(const QAngle& Angle, const CVector3& Pos) { InitFromQAngles(Angle, Pos); }
 
-	CMatrix3x4(const QAngle& Angle, const CVector3& Pos) {
-		InitFromQAngles(Angle, Pos);
-	}
-
+public:
 	CMatrix3x4&		InitFromQAngles(const QAngle& Angle, const CVector3& Pos);
 
 	CMatrix3x4&		InitFromQAngles(const QAngle& Angle);
 
-	FORCEINLINE QAngle			ToQAngle() const {
+	FORCEINLINE QAngle			ToQAngle() const
+	{
 		QAngle Angle;
 
 		const float Dst = std::sqrtf(m_Matrix[0][0] * m_Matrix[0][0] + m_Matrix[1][0] * m_Matrix[1][0]);
@@ -80,7 +79,8 @@ public:
 	/*
 	* Validation.
 	*/
-	FORCEINLINE bool			IsValid() const {
+	FORCEINLINE bool			IsValid() const
+	{
 		// Go through all columns
 		for (std::size_t i = 0; i < 3; i++) {
 			// Go through all rows
@@ -94,7 +94,8 @@ public:
 		return true;
 	}
 
-	FORCEINLINE CMatrix3x4&		Invalidate() {
+	FORCEINLINE CMatrix3x4&		Invalidate()
+	{
 		// Go through all columns
 		for (int i = 0; i < 3; i++){
 			// Go through all rows
@@ -119,27 +120,31 @@ public:
 	FORCEINLINE CVector4		GetRow(std::size_t Row) { return *reinterpret_cast<CVector4*>(m_Matrix[Row]); }
 	FORCEINLINE CMatrix3x4&		SetRow(std::size_t Row, CVector4& Value) { m_Matrix[Row][0] = Value.m_X; m_Matrix[Row][1] = Value.m_Y; m_Matrix[Row][2] = Value.m_Z; m_Matrix[Row][3] = Value.m_W; return *this; }
 
+public:
 	float m_Matrix[3][4];
 };
 
 /*
 * I think it is used for SIMD.
 */
-class ALIGN16 CMatrix3x4a : public CMatrix3x4 {
+class ALIGN16 CMatrix3x4a : public CMatrix3x4
+{
 public:
 
 };
 
-class VMatrix {
+class VMatrix
+{
 public:
 	~VMatrix() = default;
 
-	VMatrix() {}
+	VMatrix() { }
+
 	VMatrix(float m00, float m01, float m02, float m03,
 		float m10, float m11, float m12, float m13,
 		float m20, float m21, float m22, float m23,
-		float m30, float m31, float m32, float m33) {
-
+		float m30, float m31, float m32, float m33)
+	{
 		m_Matrix[0][0] = m00;
 		m_Matrix[0][1] = m00;
 		m_Matrix[0][2] = m00;
@@ -169,5 +174,6 @@ public:
 	FORCEINLINE float*			operator[](std::size_t Index) { return m_Matrix[Index]; }
 	FORCEINLINE const float*	operator[](std::size_t Index) const { return m_Matrix[Index]; }
 
+public:
 	float m_Matrix[4][4];
 };

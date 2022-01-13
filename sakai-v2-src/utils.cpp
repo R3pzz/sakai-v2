@@ -1,18 +1,22 @@
 #include "utils.h"
+// Include m_pDevice
+#include "sdk/interfaces.h"
+// Include menu funtions
+#include "features/menu/menu.h"
 
-namespace U {
-	namespace DATE {
-
+namespace U
+{
+	namespace DATE
+	{
 		// std::string GetLocalTime() implementation.
-		std::string GetLocalTime() {
-
+		std::string GetLocalTime()
+		{
 			// Get our current time
-			const std::int64_t CurTime = time(0);
-
+			auto CurTime = time(NULL);
 			// Implement timezone transition
-			const tm* TimeInfo = localtime(&CurTime);
+			auto* TimeInfo = localtime(&CurTime);
+			auto* Time = asctime(TimeInfo);
 
-			char* Time = asctime(TimeInfo);
 			if (!Time) // Check if we have a NULL string
 				return std::string("");
 
@@ -21,16 +25,16 @@ namespace U {
 
 		// int GetLocalTime() implementation.
 		template <ETimeStamp T = TS_HOURS> // Select timestamp we want to use
-		int GetLocalTime() {
-
+		int GetLocalTime()
+		{
 			// Get our current time
-			const std::int64_t CurTime = time(0);
-
+			auto CurTime = time(0);
 			// Implement timezone transition
-			const tm* TimeInfo = localtime(&CurTime);
+			auto* TimeInfo = localtime(&CurTime);
 			
 			// Dispatch timestamp we will return
-			switch (T) {
+			switch (T)
+			{
 			case TS_HOURS: return TimeInfo->tm_hour;
 			case TS_MINUTES: return TimeInfo->tm_min;
 			case TS_SECONDS: return TimeInfo->tm_sec;
@@ -38,15 +42,14 @@ namespace U {
 		}
 
 		// std::string GetGMTTime() implementation.
-		std::string GetGMTTime() {
-
+		std::string GetGMTTime()
+		{
 			// Get our current time
-			const std::int64_t CurTime = time(0);
-
+			auto CurTime = time(0);
 			// Implement timezone transition
-			const tm* TimeInfo = gmtime(&CurTime);
+			auto* TimeInfo = gmtime(&CurTime);
+			auto* Time = asctime(TimeInfo);
 
-			char* Time = asctime(TimeInfo);
 			if (!Time) // Check if we have a NULL string
 				return std::string("");
 
@@ -55,16 +58,16 @@ namespace U {
 
 		// int GetGMTTime() implementation.
 		template <ETimeStamp T = TS_HOURS> // Select timestamp we want to use
-		int GetGMTTime() {
-
+		int GetGMTTime()
+		{
 			// Get our current time
-			const std::int64_t CurTime = time(0);
-
+			auto CurTime = time(0);
 			// Implement timezone transition
-			const tm* TimeInfo = gmtime(&CurTime);
+			auto* TimeInfo = gmtime(&CurTime);
 
 			// Dispatch timestamp we will return
-			switch (T) {
+			switch (T)
+			{
 			case TS_HOURS: return TimeInfo->tm_hour;
 			case TS_MINUTES: return TimeInfo->tm_min;
 			case TS_SECONDS: return TimeInfo->tm_sec;
@@ -75,32 +78,15 @@ namespace U {
 	/*
 	* Key utilities such as keybinds, key states etc...
 	*/
-	namespace INP {
-
+	namespace INP
+	{
 		// Define m_Binds
-		std::unordered_map<std::uint32_t, void*> m_Binds;
-
-		template <EKeyState T = KS_PRESSED> // Select key state to check key behaviour
-		bool GetKeyState(std::int16_t Key) {
-
-			// Get key state (not dispatched)
-			SHORT State = GetAsyncKeyState(Key);
-
-			// Dispatch key state
-			switch (T) {
-			case KS_PRESSED: return HIWORD(State);
-			case KS_HOLDED: return LOWORD(State);
-			case KS_AWAY: return !HIWORD(State);
-			}
-
-			// If we fail then return false
-			return false;
-		}
+		std::unordered_map<std::uint32_t, std::function<void()>> m_Binds;
 	}
 }
 
-namespace G {
-	
+namespace G
+{
 	// Define m_LocalTime
 	int m_LocalTime;
 
@@ -127,4 +113,27 @@ namespace G {
 
 	// Define m_UserName
 	std::string m_UserName;
+
+	void Init()
+	{
+		G::m_BuildTime = __DATE__;
+
+		auto CP = D3DDEVICE_CREATION_PARAMETERS();
+		G::m_CurrentWindow = CP.hFocusWindow;
+		// Check if we actually initialized our device in I
+		//	so we can just "copy-paste" it
+#ifdef DEBUG
+		assert(I::m_pDevice != NULL);
+#else
+		if (!I::m_pDevice)
+			L::LogEvent(XOR("'Globals_Init()': Initialized G::m_Direct3Device before I::m_pDevice"), true); return;
+#endif
+		G::m_Direct3Device = I::m_pDevice;
+		G::m_SystemEnv = std::getenv("SystemDrive");
+		G::m_UserName = "r3pzz";
+
+		U::INP::m_Binds[FNV("Menu toggle")] = []() {
+			GUI::m_bIsOpened = !GUI::m_bIsOpened;
+		};
+	}
 }

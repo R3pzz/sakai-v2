@@ -4,38 +4,43 @@
 
 #include "../sdk/interfaces.h"
 
-void CEventManager::Init() {
+void CEventManager::Init()
+{
 	m_pEventManager = I::m_pGameEventManager;
 }
 
-bool CEventManager::FirePendingEvents(bool Log) {
-	for (auto& Event : m_vecEventsPending) {
+bool CEventManager::FirePendingEvents(bool Log)
+{
+	for (auto& Event : m_vecEventsPending)
+	{
 		if (Event->IsEmpty())
 			continue;
 
 		if (Log)
-			L::LogEvent("Successfully dumped event", L::EEventType::LOG_EVENT_SUCCESS);
+			L::LogEvent("Successfully dumped event", true);
 
-		if (!GetEventManager()->FireEvent(Event)) {
-			L::LogEvent("Couldn't fire event", L::EEventType::LOG_EVENT_SUCCESS);
-		}
+		if (!GetEventManager()->FireEvent(Event))
+			L::LogEvent("Couldn't fire event", true);
 	}
 
 	return true;
 }
 
-bool CEventManager::DumpEvents() {
+bool CEventManager::DumpEvents()
+{
 	m_ofsDumpFile.open(XOR("events.sl"));
 
-	if (m_ofsDumpFile.bad()) {
-		L::LogEvent(XOR("Events dump error, corrupted file!"), L::EEventType::LOG_EVENT_FAILURE);
+	if (m_ofsDumpFile.bad())
+	{
+		L::LogEvent(XOR("Events dump error, corrupted file!"), true);
 		return false;
 	}
 
 	if (m_vecDumpedEvents.empty())
 		return true;
 
-	for (auto& Event : m_vecDumpedEvents) {
+	for (auto& Event : m_vecDumpedEvents)
+	{
 		if (Event->IsEmpty())
 			continue;
 
@@ -47,7 +52,8 @@ bool CEventManager::DumpEvents() {
 	return true;
 }
 
-bool CEventManager::LoadEventsFromFile(std::string FileName) {
+bool CEventManager::LoadEventsFromFile(std::string FileName)
+{
 	if (m_pEventsFile)
 		fclose(m_pEventsFile);
 
@@ -57,8 +63,8 @@ bool CEventManager::LoadEventsFromFile(std::string FileName) {
 	if (!m_pEventsFile)
 		return false;
 
-	std::size_t Size = std::ftell(m_pEventsFile);
-	char* Buf = static_cast<char*>(_malloca(sizeof(char) * Size));
+	auto Size = std::ftell(m_pEventsFile);
+	auto* Buf = static_cast<char*>(_malloca(sizeof(char) * Size));
 
 	if (Buf == NULL)
 		return false;
@@ -70,22 +76,25 @@ bool CEventManager::LoadEventsFromFile(std::string FileName) {
 	return true;
 }
 
-IGameEventManager* CEventManager::GetEventManager() {
+IGameEventManager* CEventManager::GetEventManager()
+{
 	if (!m_pEventManager)
 		return NULL;
 
 	return m_pEventManager;
 }
 
-void CEventManager::LogEvent(IGameEvent* Event) {
+void CEventManager::LogEvent(IGameEvent* Event)
+{
 
 }
 
-IGameEventListener* CEventManager::SeteupListener(std::string Name, IGameEvent* EventToListen) {
+IGameEventListener* CEventManager::SeteupListener(std::string Name, IGameEvent* EventToListen)
+{
 	if (!EventToListen)
 		return NULL;
 
-	IGameEventListener* pListener = static_cast<IGameEventListener*>(_malloca(sizeof(IGameEventListener)));
+	auto* pListener = static_cast<IGameEventListener*>(_malloca(sizeof(IGameEventListener)));
 
 	GetEventManager()->AddListener(pListener, Name.c_str(), false);
 }

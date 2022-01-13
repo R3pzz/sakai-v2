@@ -6,7 +6,8 @@ class CRecvProxyData;
 class CRecvTable;
 class CRecvProp;
 
-namespace U {
+namespace U
+{
 	/*
 	* Transfer data from recv proxy to your own structure.
 	*/
@@ -23,7 +24,8 @@ namespace U {
 	using DataTableRecvVarProxyFn = void(*)(const CRecvProp* Prop, void** Out, void* Data, int ObjectID);
 }
 
-enum ESendProp : std::uint8_t {
+enum ESendProp : std::uint8_t
+{
 	DPT_INT = 0,
 	DPT_FLT,
 	DPT_VEC,
@@ -35,7 +37,8 @@ enum ESendProp : std::uint8_t {
 	DPT_NUM_SEND_PROP_TYPES
 };
 
-class CStandardRecvProxies {
+class CStandardRecvProxies
+{
 public:
 	CStandardRecvProxies() {}
 
@@ -48,7 +51,8 @@ public:
 	U::RecvVarProxyFn m_VectorToVector;
 };
 
-class CRecvProxyData {
+class CRecvProxyData
+{
 public:
 	const CRecvProp* m_pProperty;
 	float			m_flValue;
@@ -62,7 +66,8 @@ public:
 	std::int32_t	m_nID;
 };
 
-class CRecvProp {
+class CRecvProp
+{
 public:
 	char*			m_szVarName;
 	ESendProp		m_nRecvType;
@@ -81,7 +86,8 @@ public:
 	const char*		m_szParentArrayPropName;
 };
 
-class CRecvTable {
+class CRecvTable
+{
 public:
 	CRecvProp*		m_pProps;
 	int				m_nProps;

@@ -1,11 +1,14 @@
 #pragma once
+// Include EClassID
+#include "classid.h"
 
 // For Create... delcarations
-struct IClientNetworkable;
+class IClientNetworkable;
 // For client class recv table declaration
-struct CRecvTable;
+class CRecvTable;
 
-namespace U {
+namespace U
+{
 	/*
 	* Function for creating a client class.
 	*/
@@ -17,13 +20,14 @@ namespace U {
 	using CreateEventFn = IClientNetworkable * (*)();
 }
 
-class CClientClass {
+class CClientClass
+{
 public:
 	U::CreateClientClassFn	m_fnCreateClientClass;
 	U::CreateEventFn		m_fnCreateEvent;
 	char*					m_szNetTableName;
 	CRecvTable*				m_pRecvTable;
 	CClientClass*			m_pNext;
-	int						m_nClassID;
+	EClassID				m_nClassID;
 	const char*				m_szClassName;
 };

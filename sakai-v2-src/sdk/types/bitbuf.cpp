@@ -5,7 +5,8 @@
 /*
 * BfRead_t functions.
 */
-void BfRead_t::StartReading(const void* Data, int Bytes, int StartBit, int Bits) {
+void BfRead_t::StartReading(const void* Data, int Bytes, int StartBit, int Bits)
+{
 	m_pData = reinterpret_cast<const std::uint32_t*>(Data);
 	m_pDataIn = m_pData;
 	m_iDataBytes = Bytes;
@@ -19,10 +20,12 @@ void BfRead_t::StartReading(const void* Data, int Bytes, int StartBit, int Bits)
 		Seek(StartBit);
 }
 
-bool BfRead_t::Seek(int Pos) {
+bool BfRead_t::Seek(int Pos)
+{
 	bool Success = true;
 
-	if (Pos < 0 || Pos > m_iDataBits) {
+	if (Pos < 0 || Pos > m_iDataBits)
+	{
 		m_bOverflow = true;
 		Success = false;
 		Pos = m_iDataBits;
@@ -31,11 +34,12 @@ bool BfRead_t::Seek(int Pos) {
 	const std::uint32_t Head = m_iDataBytes & 3;
 	const std::uint32_t Offset = Pos / 8;
 
-	if (m_iDataBytes < 4
-		|| Head && Offset < Head) {
+	if (m_iDataBytes < 4 || Head && Offset < Head)
+	{
 		auto Partial = reinterpret_cast<const std::uint8_t*>(m_pData);
 
-		if (m_pData) {
+		if (m_pData)
+		{
 			m_iInBufWord = *(Partial++);
 
 			if (Head > 1)
@@ -49,17 +53,20 @@ bool BfRead_t::Seek(int Pos) {
 		m_iInBufWord >>= (Pos & 31);
 		m_nBitsAvail = (Head << 3) - (Pos & 31);
 	}
-	else {
+	else
+	{
 		const auto AdjustPos = Pos - (Head << 3);
 
 		m_pDataIn = reinterpret_cast<const std::uint32_t*>(reinterpret_cast<const std::uint8_t*>(m_pData) + ((AdjustPos / 32) << 2) + Head);
 
-		if (m_pData) {
+		if (m_pData)
+		{
 			m_nBitsAvail = 32;
 
 			GrabNextDword();
 		}
-		else {
+		else
+		{
 			m_iInBufWord = 0;
 			m_nBitsAvail = 1;
 		}
@@ -71,8 +78,10 @@ bool BfRead_t::Seek(int Pos) {
 	return Success;
 }
 
-void BfRead_t::GrabNextDword(bool OverflowImmediately) {
-	if (m_pDataIn == m_pBufferEnd) {
+void BfRead_t::GrabNextDword(bool OverflowImmediately)
+{
+	if (m_pDataIn == m_pBufferEnd)
+	{
 		m_nBitsAvail = 1;
 		m_iInBufWord = 0;
 		m_pDataIn++;
@@ -80,11 +89,13 @@ void BfRead_t::GrabNextDword(bool OverflowImmediately) {
 		if (OverflowImmediately)
 			m_bOverflow = true;
 	}
-	else if (m_pDataIn > m_pBufferEnd) {
+	else if (m_pDataIn > m_pBufferEnd)
+	{
 		m_bOverflow = true;
 		m_iInBufWord = 0;
 	}
-	else {
+	else
+	{
 		m_iInBufWord = *(m_pDataIn++);
 	}
 }
@@ -92,7 +103,8 @@ void BfRead_t::GrabNextDword(bool OverflowImmediately) {
 /*
 * BfWrite_t functions.
 */
-void BfWrite_t::StartWriting(void* Data, int Bytes, int StartBit, int Bits) {
+void BfWrite_t::StartWriting(void* Data, int Bytes, int StartBit, int Bits)
+{
 	Bytes &= ~3;
 
 	m_pData = reinterpret_cast<std::uint8_t*>(Data);
@@ -103,10 +115,12 @@ void BfWrite_t::StartWriting(void* Data, int Bytes, int StartBit, int Bits) {
 	m_bOverflow = false;
 }
 
-void BfWrite_t::WriteUserCmd(void* Reciever, void* Sender) {
-	static const std::uint8_t* WriteUserCmdFn = SIG("client.dll", "55 8B EC 83 E4 F8 51 53 56 8B D9 8B 0D").m_Ptr;
+void BfWrite_t::WriteUserCmd(void* Reciever, void* Sender)
+{
+	static auto* WriteUserCmdFn = SIG("client.dll", "55 8B EC 83 E4 F8 51 53 56 8B D9 8B 0D").Get<std::uintptr_t*>();
 
-	__asm {
+	__asm
+	{
 		mov     ecx, this
 		mov     edx, Reciever
 		push	Sender

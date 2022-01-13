@@ -9,7 +9,8 @@
 /*
 * This is a better version of volvo's event manager.
 */
-class CEventManager {
+class CEventManager
+{
 public:
 	/*
 	* Init our event manager (setup outfiles, event manager,

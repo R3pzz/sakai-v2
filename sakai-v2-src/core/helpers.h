@@ -6,7 +6,7 @@
 /*
 * Some miscellaneous helpers.
 */
-namespace H
+namespace HLP
 {
 	/*
 	* This function compares two types and

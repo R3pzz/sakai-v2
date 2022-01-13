@@ -12,7 +12,8 @@
 /*
 * Here are functions specified on math operations.
 */
-namespace M {
+namespace M
+{
 	/*
 	* Sets vector aligned to a matrix.
 	*/

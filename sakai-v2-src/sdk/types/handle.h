@@ -5,7 +5,8 @@
 class CBaseHandle;
 class IClientEntity;
 
-class IHandleEntity {
+class IHandleEntity
+{
 public:
 	virtual ~IHandleEntity() {}
 
@@ -13,7 +14,8 @@ public:
 	virtual const		CBaseHandle& GetRefEHandle() const = 0;
 };
 
-class CBaseHandle {
+class CBaseHandle
+{
 public:
 	CBaseHandle() {}
 	CBaseHandle(const CBaseHandle& other) : m_Idx(other.m_Idx) {}
@@ -34,7 +36,7 @@ public:
 
 	FORCEINLINE int GetSerial() const { return m_Idx >> 16; }
 
-	IClientEntity* Get() const;
+	IClientEntity* Get() const; //FIX THIS
 
 public:
 	std::uint32_t m_Idx;

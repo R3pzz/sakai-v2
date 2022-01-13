@@ -19,12 +19,14 @@
 #include "core/render.h"
 // Include Security system
 #include "core/security.h"
+// Include std::function<>
+#include <functional>
 
 /*
 * Utils which did not get class-specified.
 */
-namespace U {
-
+namespace U
+{
 	/*
 	* Swap encodings through multibyte and ANSI.
 	* @UTF-8 stands for multibyte,
@@ -32,36 +34,34 @@ namespace U {
 	*/
 
 	// Swap to UTF-8
-	FORCEINLINE std::string ToUTF8(std::wstring_view txt) {
+	FORCEINLINE std::string ToUTF8(std::wstring_view txt)
+	{
 		if (txt.empty()) // Check if our string is empty so we do not waste time
 			return "";
 
 		// Obtain out string size
-		std::size_t Size = WideCharToMultiByte(CP_UTF8, 0, txt.data(), txt.size(), 0, 0, 0, 0);
-
+		auto Size = WideCharToMultiByte(CP_UTF8, 0, txt.data(), txt.size(), 0, 0, 0, 0);
 		// Make an out string
-		std::string Ret = std::string(Size, 0);
+		auto Ret = std::string(Size, 0);
 
 		// Swap to UTF-8
 		WideCharToMultiByte(CP_UTF8, 0, txt.data(), txt.size(), Ret.data(), Size, 0, 0);
-
 		return Ret;
 	}
 
 	// Swap to ANSI
-	FORCEINLINE std::wstring ToANSI(std::string_view txt) {
+	FORCEINLINE std::wstring ToANSI(std::string_view txt)
+	{
 		if (txt.empty()) // Check if our string is empty so we do not waste time
 			return L"";
 
 		// Obtain out string size
-		std::size_t size = MultiByteToWideChar(CP_UTF8, 0, txt.data(), txt.size(), 0, 0);
-
+		auto size = MultiByteToWideChar(CP_UTF8, 0, txt.data(), txt.size(), 0, 0);
 		// Make an out string
-		std::wstring ret = std::wstring(size, 0);
+		auto ret = std::wstring(size, 0);
 
 		// Swap to UTF-8
 		MultiByteToWideChar(CP_UTF8, 0, txt.data(), txt.size(), ret.data(), size);
-
 		return ret;
 	}
 
@@ -70,13 +70,14 @@ namespace U {
 	* @this is I think the most easy way to implement
 	*	getting time and date.
 	*/
-	namespace DATE {
-
+	namespace DATE
+	{
 		/*
 		* Time stamp type:
 		*	hours, minutes, seconds.
 		*/
-		enum ETimeStamp {
+		enum ETimeStamp : int
+		{
 			TS_HOURS,
 			TS_MINUTES,
 			TS_SECONDS,
@@ -109,12 +110,13 @@ namespace U {
 		int GetGMTTime();
 	}
 
-	namespace INP {
-
+	namespace INP
+	{
 		/*
 		* Key state to check behaviour
 		*/
-		enum EKeyState {
+		enum class EKeyState : int
+		{
 			KS_PRESSED,
 			KS_HOLDED,
 			KS_AWAY,
@@ -124,13 +126,28 @@ namespace U {
 		inline bool m_InputBlocked = false;
 
 		// Map of binds corresponding to functions
-		extern std::unordered_map<std::uint32_t, void*> m_Binds;
+		extern std::unordered_map<std::uint32_t, std::function<void()>> m_Binds;
 
 		/*
 		* Gets key state by activation type.
 		*/
-		template <EKeyState T = KS_PRESSED>
-		bool GetKeyState(std::int16_t key);
+		template <EKeyState T = EKeyState::KS_PRESSED>
+		FORCEINLINE bool GetKeyState(std::int16_t Key)
+		{
+			// Get key state (not dispatched)
+			auto State = GetAsyncKeyState(Key);
+
+			// Dispatch key state
+			switch (T)
+			{
+			case EKeyState::KS_PRESSED: return HIWORD(State);
+			case EKeyState::KS_HOLDED: return LOWORD(State);
+			case EKeyState::KS_AWAY: return !HIWORD(State);
+			}
+
+			// If we fail then return false
+			return false;
+		}
 	}
 }
 
@@ -166,4 +183,9 @@ namespace G {
 
 	// Current player username
 	extern std::string m_UserName;
+
+	/*
+	* Initialize our globals.
+	*/
+	void Init();
 }

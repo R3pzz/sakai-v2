@@ -1,6 +1,8 @@
-﻿#include "includes.h"
-#include "utils.h"
-#include "sdk.h"
+﻿#include "sdk.h"
+// Include hooking library
+#include "features/hooks/hooks.h"
+// Include menu
+#include "features/menu/menu.h"
 
 DWORD APIENTRY Main(PVOID);
 DWORD Shutdown();
@@ -28,10 +30,6 @@ DWORD APIENTRY Main(PVOID Module)
 	do {
 		std::this_thread::sleep_for(std::chrono::milliseconds(200));
 	} while (!GetModuleHandleA("serverbrowser.dll"));
-
-#if (1)
-	H::InitConsole(XOR("Sakai DBG"));
-#endif
 
 	std::string HWID = SEC::GetHWID();
 	std::ofstream HwidFile;
@@ -68,12 +66,35 @@ DWORD APIENTRY Main(PVOID Module)
 
 	HwidFile.close();
 
-	I::Init();
+	// Register binds
+
+	try {
+		L::Init();
+		// Initialize console
+		HLP::InitConsole(XOR("Sakai DBG"));
+		// Initialize interfaces
+		I::Init();
+		// Initialize globals
+		G::Init();
+		// Initialize render
+		R::Init();
+		// Stylize menu
+		GUI::Style();
+		// Initialize hooks
+		H::Init();
+	}
+	catch (std::exception& except)
+	{
+		char Buf[256];
+		std::sprintf(Buf, XOR("Exception thrown at %s"), except.what());
+		L::LogEvent(Buf, true);
+		delete[] Buf;
+	}
 
 	// Check if we want to unload our cheat
 	while (!U::INP::GetKeyState<U::INP::EKeyState::KS_PRESSED>(VK_END))
 	{
-		std::this_thread::sleep_for(std::chrono::microseconds(200));
+		std::this_thread::sleep_for(std::chrono::milliseconds(200));
 	}
 
 	FreeLibraryAndExitThread(reinterpret_cast<HMODULE>(Module), 0);

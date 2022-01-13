@@ -6,17 +6,19 @@
 // Include CGlobalVarsBase
 #include "globalvars.h"
 
-class C_BaseEntity;
-class C_BasePlayer;
+class CBaseEntity;
+class CBasePlayer;
 
-namespace U {
+namespace U
+{
 	/*
 	* Handle to a specific entity.
 	*/
 	using EntityHandle_t = std::uint16_t;
 }
 
-struct CMoveData {
+struct CMoveData
+{
 	bool			m_bFirstRunOfFunctions;
 	bool			m_bGameCodeMovedPlayer;
 	bool			m_bNoAirControl;
@@ -47,7 +49,8 @@ struct CMoveData {
 	CVector3		m_vecAbsOrigin;
 };
 
-struct CUserCmd {
+struct CUserCmd
+{
 	int				m_nCommand;
 	int				m_iTickCount;
 	QAngle			m_angViewAngles;
@@ -67,27 +70,36 @@ struct CUserCmd {
 	CVector3		m_vecHeadOffset;
 };
 
-class IGameMovement {
+struct CVerifiedUserCmd
+{
+	CUserCmd*		m_pCmd;
+	std::uint32_t	m_CRC;
+};
+
+class IGameMovement
+{
 public:
 	virtual	~IGameMovement() { }
 
-	virtual void		ProcessMovement(C_BasePlayer* Player, CMoveData* Move) = 0;
+	virtual void		ProcessMovement(CBasePlayer* Player, CMoveData* Move) = 0;
 	virtual void		Reset() = 0;
-	virtual void		StartTrackPredictionErrors(C_BasePlayer* Player) = 0;
-	virtual void		FinishTrackPredictionErrors(C_BasePlayer* Player) = 0;
+	virtual void		StartTrackPredictionErrors(CBasePlayer* Player) = 0;
+	virtual void		FinishTrackPredictionErrors(CBasePlayer* Player) = 0;
 };
 
-class IMoveHelper {
+class IMoveHelper
+{
 public:
-	CALL_VIRTUAL(1U,	SetHost(C_BaseEntity* Host),	void(__thiscall*)(void*, C_BaseEntity*), Host);
+	CALL_VIRTUAL(1U,	SetHost(CBaseEntity* Host),		void(__thiscall*)(void*, CBaseEntity*), Host);
 };
 
-class IPrediction {
+class IPrediction
+{
 public:
-	CALL_VIRTUAL(20U,	SetupMove(C_BasePlayer* Player, CUserCmd* Cmd, IMoveHelper* Helper, CMoveData* Data),
-		void(__thiscall*)(void*, C_BasePlayer*, CUserCmd*, IMoveHelper*, CMoveData*),			Player, Cmd, Helper, Data);
-	CALL_VIRTUAL(21U,	FinishMove(C_BasePlayer* Player, CUserCmd* Cmd, CMoveData* Data),
-		void(__thiscall*)(void*, C_BasePlayer*, CUserCmd*, CMoveData*),							Player, Cmd, Data);
+	CALL_VIRTUAL(20U,	SetupMove(CBasePlayer* Player, CUserCmd* Cmd, IMoveHelper* Helper, CMoveData* Data),
+		void(__thiscall*)(void*, CBasePlayer*, CUserCmd*, IMoveHelper*, CMoveData*),			Player, Cmd, Helper, Data);
+	CALL_VIRTUAL(21U,	FinishMove(CBasePlayer* Player, CUserCmd* Cmd, CMoveData* Data),
+		void(__thiscall*)(void*, CBasePlayer*, CUserCmd*, CMoveData*),							Player, Cmd, Data);
 
 public:
 	std::int8_t		_0[8];

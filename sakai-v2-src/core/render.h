@@ -13,21 +13,20 @@
 /*
 * Utilities used for rendering.
 */
-namespace RENDER {
-
+namespace R
+{
 	/*
 	* ImGui wrappers.
 	*/
-	namespace IM {
-
+	namespace IM
+	{
 		/*
 		* Calculate text size based on font.
 		*/
-		FORCEINLINE ImVec2 GetTextSize(std::string_view Text, const ImFont* Font) {
-
+		FORCEINLINE ImVec2 GetTextSize(std::string_view Text, const ImFont* Font)
+		{
 			// Check if the text is empty or font size is 0.f so we don't waste time on calculus
-			if (Text.empty()
-				|| Font->FontSize == 0)
+			if (Text.empty() || Font->FontSize == 0)
 				return ImVec2(0.f, 0.f); // Return empty vector
 
 			// ImGui text size calculator
@@ -37,7 +36,8 @@ namespace RENDER {
 		/*
 		* Font flags for font renderer.
 		*/
-		enum EFontFlags {
+		enum EFontFlags : int
+		{
 			FF_NONE			 = 0x1,
 			FF_CENTERED_X	 = 0x2,
 			FF_CENTERED_Y	 = 0x4,
@@ -78,17 +78,18 @@ namespace RENDER {
 	void Draw();
 
 	// Flush the draw list
-	void Flush();
+	void Cleanup();
 
 	// Current ImGui draw list we are adding items to
 	extern std::shared_ptr<ImDrawList> m_CurrentList;
-
 	// ImGui draw list we will be relacing with
 	extern std::shared_ptr<ImDrawList> m_DrawingList;
-
 	// ImGui draw list which we will replace
 	extern std::shared_ptr<ImDrawList> m_ReplaceList;
-
 	// Mutex to avoid race-conditional "bug". Yeah ik I am a bit retarder by calling this thing a race-conditional bug :poggers:
 	extern std::mutex m_Mutex;
+	// ImGuiIO pointer
+	inline ImGuiIO* m_pIO;
+	// Style pointer
+	inline ImGuiStyle* m_pStyle;
 }

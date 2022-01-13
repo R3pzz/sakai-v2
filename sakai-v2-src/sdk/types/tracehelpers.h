@@ -9,9 +9,10 @@
 #include "surfaceflags.h"
 
 class IHandleEntity;
-class C_BaseEntity;
+class CBaseEntity;
 
-namespace U {
+namespace U
+{
 	/*
 	* Trace type for trace filter to know
 	*	which entities to skip.
@@ -28,13 +29,15 @@ namespace U {
 * This is a class to tell trace system which entities
 *	to skip.
 */
-class ITraceFilter {
+class ITraceFilter
+{
 public:
 	virtual bool			ShouldHitEntity(IHandleEntity* Entity, int Mask) = 0;
 	virtual U::ETraceType	GetTraceType() const = 0;
 };
 
-class CTraceFilter : public ITraceFilter {
+class CTraceFilter : public ITraceFilter
+{
 public:
 	CTraceFilter() { }
 	CTraceFilter(IHandleEntity* Skip, U::ETraceType Type = U::ETraceType::TRACE_EVERYTHING) : m_pSkip(Skip), m_iType(Type) { }
@@ -56,7 +59,8 @@ public:
 /*
 * This is a filter for skipping two entities on a ray.
 */
-class CTraceFilterSkipTwoEntities : public ITraceFilter {
+class CTraceFilterSkipTwoEntities : public ITraceFilter
+{
 public:
 	CTraceFilterSkipTwoEntities() = default;
 	CTraceFilterSkipTwoEntities(IHandleEntity* Skip1, IHandleEntity* Skip2) : m_pSkip1(Skip1), m_pSkip2(Skip2) { }
@@ -73,7 +77,8 @@ public:
 /*
 * Do not account hitting world entities and props.
 */
-class CTraceFilterWorldOnly : public ITraceFilter {
+class CTraceFilterWorldOnly : public ITraceFilter
+{
 public:
 	FORCEINLINE bool		ShouldHitEntity(IHandleEntity* Handle, int Mask) { return false; }
 	FORCEINLINE U::ETraceType GetTraceType() const { return U::ETraceType::TRACE_WORLD_ONLY; }
@@ -82,7 +87,8 @@ public:
 /*
 * Do not account hitting world entities.
 */
-class CTraceFilterWorldAndPropsOnly : public ITraceFilter {
+class CTraceFilterWorldAndPropsOnly : public ITraceFilter
+{
 public:
 	FORCEINLINE bool		ShouldHitEntity(IHandleEntity* Handle, int Mask) { return false; }
 	FORCEINLINE U::ETraceType GetTraceType() const { return U::ETraceType::TRACE_EVERYTHING; }
@@ -91,7 +97,8 @@ public:
 /*
 * Do not account hitting players.
 */
-class CTraceFilterNoPlayers : public CTraceFilter {
+class CTraceFilterNoPlayers : public CTraceFilter
+{
 public:
 	FORCEINLINE bool		ShouldHitEntity(IHandleEntity* Handle, int Mask) override { return false; }
 };
@@ -99,27 +106,32 @@ public:
 /*
 * Entity we did hit while tracing a ray.
 */
-class CTraceEntity : public ITraceFilter {
+class CTraceEntity : public ITraceFilter
+{
 public:
 	CTraceEntity() { }
 	CTraceEntity(IHandleEntity* Handle) { m_pHitEntity = Handle; }
 
+public:
 	FORCEINLINE bool		ShouldHitEntity(IHandleEntity* Handle, int Mask) { return Handle == m_pHitEntity; }
 	FORCEINLINE U::ETraceType GetTraceType() const { return U::ETraceType::TRACE_ENTITIES_ONLY; }
 
+public:
 	IHandleEntity* m_pHitEntity = NULL;
 };
 
 /*
 * Some structs for tracing.
 */
-struct Surface_t {
+struct Surface_t
+{
 	const char*		m_szName;
 	std::int16_t	m_iSurfaceProps;
 	std::uint16_t	m_iFlags;
 };
 
-struct Plane_t {
+struct Plane_t
+{
 	CVector3		m_vecNormal;
 	float			m_flDist;
 	char			m_chType;
@@ -127,7 +139,8 @@ struct Plane_t {
 	char			_0[2];
 };
 
-struct Ray_t {
+struct Ray_t
+{
 	Ray_t() : m_pWorldAxisTransform(NULL) {}
 
 	FORCEINLINE void Init(const CVector3a& Start, const CVector3a& End) {
@@ -151,7 +164,8 @@ struct Ray_t {
 	bool			m_bIsSwept;
 };
 
-class CBaseTrace {
+class CBaseTrace
+{
 public:
 	CBaseTrace() {}
 
@@ -184,7 +198,8 @@ public:
 	bool			m_bDidStartInSolid;
 };
 
-class CGameTrace : public CBaseTrace {
+class CGameTrace : public CBaseTrace
+{
 public:
 	CGameTrace() : m_pEnt(NULL) {}
 
@@ -220,7 +235,7 @@ public:
 	// Index of surface we hit
 	unsigned short	m_nWorldSurfaceIndex;
 	// Entity we hit with our ray
-	C_BaseEntity*	m_pEnt;
+	CBaseEntity*	m_pEnt;
 	// Studio hitbox we hit with our ray
 	int				m_nHitbox;
 };

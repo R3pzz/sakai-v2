@@ -9,8 +9,10 @@ class INetChannelInfo;
 class CClientClass;
 class CStandardRecvProxies;
 class CEventInfo;
+class CViewSetup;
 
-class IClientDLL {
+class IClientDLL
+{
 public:
 	// Gets all client classes to parse a recv table
 	CALL_VIRTUAL(8U,	GetAllClasses(),			CClientClass* (__thiscall*)(void*));
@@ -25,7 +27,8 @@ public:
 	CALL_VIRTUAL(45U,	GetStandardRecvProxies(),	CStandardRecvProxies* (__thiscall*)(void*));
 };
 
-class CClientState {
+class CClientState
+{
 public:
 	pad_t				_0[0x9C];				// 0x0000
 	INetChannel*		m_pNetChannel;			// 0x009C
@@ -72,9 +75,16 @@ extern CClientState* g_pClientState;
 /*
 * Get our net channel
 */
-INetChannel* GetNetChannel() { return g_pClientState ? g_pClientState->m_pNetChannel : NULL; }
+FORCEINLINE INetChannel* GetNetChannel() { return g_pClientState ? g_pClientState->m_pNetChannel : NULL; }
 
-class IEffects {
+class IClientMode
+{
+public:
+	CALL_VIRTUAL(18U,	OverrideView(CViewSetup* View),	void(__thiscall*)(void*, CViewSetup*), View);
+};
+
+class IEffects
+{
 public:
 	// Just paddings to align the VMT
 	virtual void		_0() {}
@@ -92,7 +102,8 @@ public:
 	CALL_VIRTUAL(11U,	SuppressSound(bool Suppress), void(__thiscall*)(void*, bool),			Suppress);
 };
 
-class CEventInfo {
+class CEventInfo
+{
 public:
 	short				m_nClassID;
 	float				m_flFireDelay;

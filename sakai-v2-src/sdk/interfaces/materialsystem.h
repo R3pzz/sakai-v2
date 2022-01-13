@@ -3,9 +3,13 @@
 #include "../platform.h"
 // Include EMaterialVarFlags
 #include "../classes.h"
+// Include CVector3
+#include "../types/vector.h"
 
 class CKeyValues;
+class ITexture;
 class IMaterialVar;
+class IMatRenderContext;
 
 class IMaterial {
 public:
@@ -28,19 +32,18 @@ public:
 
 class IMaterialVar {
 public:
-
-};
-
-class IMaterialRenderContext {
-public:
-
+	CALL_VIRTUAL(4U,	SetFloat(float Value),					void(__thiscall*)(void*, float),					Value);
+	CALL_VIRTUAL(5U,	SetInt(int Value),						void(__thiscall*)(void*, int),						Value);
+	CALL_VIRTUAL(6U,	SetString(char const* Value),			void(__thiscall*)(void*, char const*),				Value);
+	CALL_VIRTUAL(11U,	SetVector(const CVector3& Value),		void(__thiscall*)(void*, float, float, float),		Value.m_X, Value.m_Y, Value.m_Z);
+	CALL_VIRTUAL(27U,	SetVectorComponent(float Value, int I),	void(__thiscall*)(void*, float, int),				Value, I);
 };
 
 class IMaterialSystem {
 public:
 	// Material operations:
 	CALL_VIRTUAL(83U,	CreateMaterial(const char* Name, CKeyValues* Kvals), IMaterial* (__thiscall*)(void*, const char*, CKeyValues*), Name, Kvals);
-	CALL_VIRTUAL(84U,	FindMaterial(const char* Name, const char* Group), IMaterial* (__thiscall*)(void*, const char*, const char*, bool, const char*), Name, Group, true, nullptr);
+	CALL_VIRTUAL(84U,	FindMaterial(const char* Name, const char* Group = "Model textures"), IMaterial* (__thiscall*)(void*, const char*, const char*, bool, const char*), Name, Group, true, nullptr);
 	CALL_VIRTUAL(86U,	GetFirstMaterial(),						std::uint16_t(__thiscall*)(void*));
 	CALL_VIRTUAL(87U,	GetNextMaterial(std::uint16_t Handle),	std::uint16_t(__thiscall*)(void*, uint16_t),		Handle);
 	// Get an invalid material:
@@ -48,9 +51,8 @@ public:
 	// Get a material by its index:
 	CALL_VIRTUAL(89U,	GetMaterial(std::uint16_t Handle),		IMaterial* (__thiscall*)(void*, std::uint16_t),		Handle);
 	CALL_VIRTUAL(90U,	GetMaterialsCount(),					int(__thiscall*)(void*));
-
+	// Find a texture:
+	CALL_VIRTUAL(91U,	FindTexture(const char* Name, const char* GroupName), ITexture* (__thiscall*)(void*, const char*, const char*, bool, int), Name, GroupName, true, 0);
 	// Get render context (used for setting up the scene):
-	CALL_VIRTUAL(115U,	GetRenderContext(),						IMaterialRenderContext* (__thiscall*)(void*));
-
-	// CALL_VIRTUAL(98U,	CreateRenderTargetTexture(const char* Name, int W, int H, int SizeMode = 1, int Fmt = -2, int Depth = 0, bool ClampCoords = true, bool auto_mip_map = false), , i_texture* (__thiscall*)(void*, const char*, int, int, int, int, int, bool, bool), name, w, h, size_mode, format, depth, clamp_coords, auto_mip_map)
+	CALL_VIRTUAL(115U,	GetRenderContext(),						IMatRenderContext* (__thiscall*)(void*));
 };

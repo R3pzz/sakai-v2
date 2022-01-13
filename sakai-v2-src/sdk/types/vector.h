@@ -8,7 +8,8 @@
 // Placeholder for an empty vector
 #define MATH_VEC_NAN (std::uint8_t)-1
 
-class CVector2 {
+class CVector2
+{
 public:
 	// Destructor
 	~CVector2() = default;
@@ -67,7 +68,8 @@ public:
 	/*
 	* Calc squared distance to other vector.
 	*/
-	FORCEINLINE float		DistTo(const CVector2& Other) const {
+	FORCEINLINE float		DistTo(const CVector2& Other) const
+	{
 		float DifX = this->m_X - Other.m_X;
 		float DifY = this->m_Y - Other.m_Y;
 
@@ -77,7 +79,8 @@ public:
 	/*
 	* Calc linear distance to other vector.
 	*/
-	FORCEINLINE float		DistToSqr(const CVector2& Other) const {
+	FORCEINLINE float		DistToSqr(const CVector2& Other) const
+	{
 		float DifX = this->m_X - Other.m_X;
 		float DifY = this->m_Y - Other.m_Y;
 
@@ -89,7 +92,8 @@ public:
 	float m_X = 0.f, m_Y = 0.f;
 };
 
-class CVector3 {
+class CVector3
+{
 public:
 	// Destructor
 	~CVector3() { }
@@ -106,9 +110,11 @@ public:
 	FORCEINLINE CVector3	operator-(const CVector3& Other) const { return CVector3(m_X - m_X, m_Y - m_Y, m_Z - m_Z); }
 	FORCEINLINE bool		operator==(const CVector3& Other) const { return (m_X == Other.m_X && m_Y == Other.m_Y && m_Z == Other.m_Z); }
 	FORCEINLINE bool		operator!=(const CVector3& Other) const { return (m_X != Other.m_X || m_Y != Other.m_Y || m_Z != Other.m_Z); }
-	FORCEINLINE CVector3&	operator=(const CVector3& Other) { this->m_X = Other.m_X; this->m_Y = Other.m_Y; this->m_Z = Other.m_Z; }
+	FORCEINLINE CVector3	operator=(const CVector3& Other) { m_X = Other.m_X; m_Y = Other.m_Y; m_Z = Other.m_Z; return *this; }
 	FORCEINLINE float&		operator[](std::size_t Size) { return reinterpret_cast<float*>(this)[Size]; }
 	FORCEINLINE const float& operator[](std::size_t Size) const { return reinterpret_cast<const float*>(this)[Size]; }
+	FORCEINLINE CVector3	operator*=(const CVector3& Other) { m_X *= Other.m_X; m_Y *= Other.m_Y; m_Z *= Other.m_Z; return *this; }
+	FORCEINLINE CVector3	operator*=(const float& Value) { m_X *= Value; m_Y *= Value; m_Z *= Value; return *this; }
 
 	/*
 	* Get address of our vector.
@@ -162,14 +168,16 @@ public:
 	/*
 	* Is our vector within a bounding box?
 	*/
-	FORCEINLINE bool		WithinBBox(CVector3 const& Mins, CVector3 const& Maxs) {
+	FORCEINLINE bool		WithinBBox(CVector3 const& Mins, CVector3 const& Maxs)
+	{
 
 	}
 
 	/*
 	* Calc squared distance to other vector.
 	*/
-	FORCEINLINE float		DistTo(const CVector3& Other) const {
+	FORCEINLINE float		DistTo(const CVector3& Other) const
+	{
 		float DifX = this->m_X - Other.m_X;
 		float DifY = this->m_Y - Other.m_Y;
 		float DifZ = this->m_Z - Other.m_Z;
@@ -180,7 +188,8 @@ public:
 	/*
 	* Calc linear distance to other vector.
 	*/
-	FORCEINLINE float		DistToSqr(const CVector3& Other) const {
+	FORCEINLINE float		DistToSqr(const CVector3& Other) const
+	{
 		float DifX = this->m_X - Other.m_X;
 		float DifY = this->m_Y - Other.m_Y;
 		float DifZ = this->m_Z - Other.m_Z;
@@ -191,7 +200,8 @@ public:
 	/*
 	* Add another vector but with a scalar.
 	*/
-	FORCEINLINE CVector3&	MulAdd(const CVector3& Vec1, const CVector3& Vec2, float Scalar) {
+	FORCEINLINE CVector3&	MulAdd(const CVector3& Vec1, const CVector3& Vec2, float Scalar)
+	{
 		m_X = Vec1.m_X + Vec2.m_X * Scalar;
 		m_Y = Vec1.m_Y + Vec2.m_Y * Scalar;
 		m_Z = Vec1.m_Z + Vec2.m_Z * Scalar;
@@ -214,7 +224,8 @@ public:
 	float m_X = 0.f, m_Y = 0.f, m_Z = 0.f;
 };
 
-class ALIGN16 CVector3a : public CVector3 {
+class ALIGN16 CVector3a : public CVector3
+{
 public:
 	CVector3a() { }
 	CVector3a(float X, float Y, float Z) { m_X = X; m_Y = Y; m_Z = Z; }
@@ -225,7 +236,8 @@ public:
 	FORCEINLINE void operator=(const CVector3a& Other) { _mm_store_ps(Base(), _mm_load_ps(Other.Base())); }
 };
 
-class CVector4 : public CVector3 {
+class CVector4 : public CVector3
+{
 public:
 	~CVector4() { }
 
@@ -235,7 +247,8 @@ public:
 	CVector4(const CVector4& Value) { m_X = Value.m_X; m_Y = Value.m_Y; m_Z = Value.m_Z; m_W = Value.m_W; }
 
 public:
-	FORCEINLINE CVector4& operator=(const CVector3& Value) {
+	FORCEINLINE CVector4& operator=(const CVector3& Value)
+	{
 		m_X = Value.m_X;
 		m_Y = Value.m_Y;
 		m_Z = Value.m_Z;
@@ -244,7 +257,8 @@ public:
 		return *this;
 	}
 
-	FORCEINLINE CVector4& operator=(const CVector4& Value) {
+	FORCEINLINE CVector4& operator=(const CVector4& Value)
+	{
 		m_X = Value.m_X;
 		m_Y = Value.m_Y;
 		m_Z = Value.m_Z;
@@ -260,7 +274,8 @@ public:
 	float m_W = 0.f;
 };
 
-class ALIGN16 CVector4a : public CVector4 {
+class ALIGN16 CVector4a : public CVector4
+{
 public:
 	~CVector4a() { }
 
@@ -270,7 +285,8 @@ public:
 	CVector4a(const CVector4& Value) { m_X = Value.m_X; m_Y = Value.m_Y; m_Z = Value.m_Z; m_W = Value.m_W; }
 
 public:
-	FORCEINLINE CVector4a& operator=(const CVector3& Value) {
+	FORCEINLINE CVector4a& operator=(const CVector3& Value)
+	{
 		m_X = Value.m_X;
 		m_Y = Value.m_Y;
 		m_Z = Value.m_Z;
@@ -279,7 +295,8 @@ public:
 		return *this;
 	}
 
-	FORCEINLINE CVector4a& operator=(const CVector4a& Value) {
+	FORCEINLINE CVector4a& operator=(const CVector4a& Value)
+	{
 		m_X = Value.m_X;
 		m_Y = Value.m_Y;
 		m_Z = Value.m_Z;

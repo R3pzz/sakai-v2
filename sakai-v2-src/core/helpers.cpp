@@ -4,7 +4,7 @@
 
 #include "security.h"
 
-namespace H
+namespace HLP
 {
 	// @TODO: Implement this for va_list.
 	bool AreTypesSame(void* A, void* B)
@@ -14,7 +14,7 @@ namespace H
 		}
 		catch (std::bad_typeid::exception& Exception)
 		{
-			L::LogEvent(Exception.what(), L::EEventType::LOG_EVENT_FAILURE);
+			L::LogEvent(Exception.what(), true);
 			return false;
 		}
 	}
@@ -25,7 +25,7 @@ namespace H
 
 		if (ConsoleAllocCode == 0)
 		{
-			L::LogEvent(XOR("Error: console alloc failure! Continuing without console..."), L::EEventType::LOG_EVENT_FAILURE);
+			L::LogEvent(XOR("Error: console alloc failure! Continuing without console..."), true);
 			L::m_bConsoleAttached = false;
 
 			return false;
@@ -35,7 +35,7 @@ namespace H
 
 		if (ConsoleAttachCode == 0)
 		{
-			L::LogEvent(XOR("Error: console attach failure! Continuing without console..."), L::EEventType::LOG_EVENT_FAILURE);
+			L::LogEvent(XOR("Error: console attach failure! Continuing without console..."), true);
 			L::m_bConsoleAttached = false;
 
 			return false;

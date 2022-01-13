@@ -1,0 +1,36 @@
+@TODO:
+
+Interfaces [
+	+ Add physicssurfaceprops
+	+ Add localize
+	+ Add input
+	+ Add inputsystem
+	+ Add clientmode
+	+ Add gametypes
+	- Add matchmaking
+	- Connect all interfaces
+]
+
++ Hooks [
+	+ Add simple vmt hooking
+	+ @After SDK is finished and working replace with minhook
+]
+
+Classes [
+	- Studio (with all subclasses)
+	- BoneSetup (CBoneSetup)
+	- Rewrite CInferno
+]
+
+Config System [
+	- Autosave
+	- Basic loading/removing/saving
+	- Ingame folder changing
+]
+
+Mathlib [
+	- Add WorldToScreen function
+	- Add AngleVectors and AngleMatrix function
+]
+
++ Update sdk.h

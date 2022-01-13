@@ -1,8 +1,9 @@
 #include "../utils.h"
 
-namespace RENDER {
-	namespace IM {
-
+namespace R
+{
+	namespace IM
+	{
 		// RenderRectangle() implementation
 		void RenderRectangle(ImVec2& Mins, ImVec2& Maxs, bool Fill, ImU32 Color, float Round, ImDrawFlags Flags, float Thickness) {
 			Fill ? m_CurrentList->AddRectFilled(Mins, Maxs, Color, Round, Flags) : m_CurrentList->AddRect(Mins, Maxs, Color, Round, Flags, Thickness);
@@ -29,11 +30,11 @@ namespace RENDER {
 		}
 
 		// RenderText() implementation
-		void RenderText(const char* Text, ImVec2& Pos, ImU32 Color, const ImFont* Font, float FontSize, EFontFlags Flags) {
-
+		void RenderText(const char* Text, ImVec2& Pos, ImU32 Color, const ImFont* Font, float FontSize, EFontFlags Flags)
+		{
 			// Come up with shade color
-			const ImVec4& ShadeCol = ImVec4(0, 0, 0, ImGui::ColorConvertU32ToFloat4(Color).w - 100.f);
-			const ImU32 ShadeColU32 = ImGui::ColorConvertFloat4ToU32(ShadeCol);
+			auto ShadeCol = ImVec4(0, 0, 0, ImGui::ColorConvertU32ToFloat4(Color).w - 100.f);
+			auto ShadeColU32 = ImGui::ColorConvertFloat4ToU32(ShadeCol);
 
 			// Dispatch font render flags
 			if (Flags & FF_CENTERED_X)
@@ -42,19 +43,21 @@ namespace RENDER {
 			if (Flags & FF_CENTERED_Y)
 				Pos.y -= GetTextSize(Text, Font).y / 2.f; // Center vertically
 
-			if (Flags & FF_DROPSHADOW) {
+			if (Flags & FF_DROPSHADOW)
+			{
 				m_CurrentList->AddText(Font, FontSize, Pos, Color, Text);
-
 				// Add drop shadow
 				m_CurrentList->AddText(Font, FontSize, ImVec2(Pos.x - 2, Pos.y), ShadeColU32, Text);
-			} else if (Flags & FF_OUTLINE) {
-
+			}
+			else if (Flags & FF_OUTLINE)
+			{
 				m_CurrentList->AddText(Font, FontSize, ImVec2(Pos.x + 1, Pos.y + 1), ShadeColU32, Text);
 				m_CurrentList->AddText(Font, FontSize, ImVec2(Pos.x - 1, Pos.y - 1), ShadeColU32, Text);
 				m_CurrentList->AddText(Font, FontSize, ImVec2(Pos.x + 1, Pos.y - 1), ShadeColU32, Text);
 				m_CurrentList->AddText(Font, FontSize, ImVec2(Pos.x - 1, Pos.y + 1), ShadeColU32, Text);
-
-			} else if (Flags & FF_NONE){
+			}
+			else if (Flags & FF_NONE)
+			{
 				m_CurrentList->AddText(Font, FontSize, Pos, Color, Text);
 			}
 		}
@@ -63,7 +66,8 @@ namespace RENDER {
 	}
 
 	// Init() implementation
-	void Init() {
+	void Init()
+	{
 
 		// Create ImGui context (basically launch ImGui)
 		ImGui::CreateContext();
@@ -78,7 +82,7 @@ namespace RENDER {
 		auto& Style = ImGui::GetStyle();
 
 		// Get font directory
-		const char* SegoeDir = strcat(G::m_SystemEnv, "\\Windows\\System32\\Fonts\\SegoeUI.ttf");
+		auto* SegoeDir = strcat(G::m_SystemEnv, "\\Windows\\System32\\Fonts\\SegoeUI.ttf");
 
 		// Setup font
 		ImFontConfig Config;
@@ -89,27 +93,25 @@ namespace RENDER {
 	}
 
 	// Begin() implementation
-	void Begin() {
-		
+	void Begin()
+	{
 		// Flush current draw list
 		m_CurrentList->Clear();
 		m_CurrentList->PushClipRectFullScreen();
 
 		// Swap lists
 		m_Mutex.lock();
-
 		*m_ReplaceList = *m_CurrentList;
-
 		m_Mutex.unlock();
 	}
 
 	// Draw() implementation
-	void Draw() {
-
+	void Draw()
+	{
 		// Replace active ImGui list with our list
-		if (m_Mutex.try_lock()) {
+		if (m_Mutex.try_lock())
+		{
 			*m_DrawingList = *m_ReplaceList;
-
 			m_Mutex.unlock();
 		}
 
@@ -117,25 +119,21 @@ namespace RENDER {
 	}
 
 	// Cleanup() implementation
-	void Cleanup() {
+	void Cleanup()
+	{
 		m_CurrentList->Clear();
 
 		m_Mutex.lock();
-
 		*m_ReplaceList = *m_CurrentList;
-
 		m_Mutex.unlock();
 	}
 
 	// Define m_CurrentList
 	std::shared_ptr<ImDrawList> m_CurrentList;
-
 	// Define m_DrawingList
 	std::shared_ptr<ImDrawList> m_DrawingList;
-
 	// Define m_ReplaceList
 	std::shared_ptr<ImDrawList> m_ReplaceList;
-
 	// Define m_Mutex
 	std::mutex m_Mutex;
 }

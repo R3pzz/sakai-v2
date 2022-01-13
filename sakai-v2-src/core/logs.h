@@ -10,68 +10,15 @@
 // Include H::ConsolePrint()
 #include "helpers.h"
 
-std::string UTIL_DispatchFmtString(const char* Fmt, ...);
-
 /*
 * Here are all logging utilities.
 */
 namespace L
 {
 	/*
-	* Type of a logged event.
+	* Log an event to file or console.
 	*/
-	enum EEventType : int
-	{
-		LOG_EVENT_FAILURE = 0x9,
-		LOG_EVENT_WARNING = 0x10,
-		LOG_EVENT_ABORT = 0x11,
-		LOG_EVENT_SUCCESS = 0x12,
-		LOG_EVENT_NONE = 0x13
-	};
-
-	/*
-	* A special log event class for logging special events
-	*	fired by the exception handlers.
-	*/
-	class CLogEvent
-	{
-		EEventType m_nType;
-	public:
-		~CLogEvent() = default;
-
-		CLogEvent() : m_nType(LOG_EVENT_NONE) {}
-		CLogEvent(const EEventType Type) : m_nType(Type), m_szName(XOR("Dummy event!")) {}
-		CLogEvent(std::string Name, const EEventType Type) : m_nType(Type), m_szName(Name) {}
-
-		FORCEINLINE std::string What()
-		{
-			char* Buf = new char;
-
-			std::strcat(Buf, XOR("["));
-			std::strcat(Buf, XOR(std::to_string(m_nType).c_str()));
-			std::strcat(Buf, XOR("] "));
-			std::strcat(Buf, XOR(m_szName.c_str()));
-
-			return Buf;
-		}
-
-		FORCEINLINE bool IsDummy() { return (m_szName.find(XOR("Dummy event!")) == std::string::npos || m_nType == LOG_EVENT_NONE); }
-
-		FORCEINLINE CLogEvent& operator=(CLogEvent Other) { m_szName = Other.m_szName; m_nType = Other.m_nType; return *this; }
-
-		std::string m_szName;
-	};
-
-	/*
-	* Log an event to a queue of events for write.
-	*/
-	bool LogEvent(std::string Name, EEventType Type);
-	bool LogEvent(EEventType Type, const char* Fmt, ...);
-
-	/*
-	* Print events from events queue.
-	*/
-	bool PrintEvents();
+	bool LogEvent(std::string Name, bool ShowTimestamp);
 
 	/*
 	* Just a basic color pallette for debugger console.
@@ -91,25 +38,30 @@ namespace L
 	/*
 	* Set a font color in the debugger console.
 	*/
-	void PushFontColor(std::uint16_t& Color);
+	void PushFontColor(std::uint16_t Color);
 
 	/*
 	* Remove a font color in the debugger console.
 	*/
 	void PopFontColor();
 
+	/*
+	* Initialize m_oLogsFile, check for console.
+	*/
+	void Init();
+
 	// Is a console attached?
 	extern bool m_bConsoleAttached;
 
 	// Is file logging enabled?
-	inline bool m_bFileLogging = false;
+	inline bool m_bFileLogging = true;
 
 	// Console text color.
 	inline std::uint16_t m_uConsoleColor = FOREGROUND_BLUE;
 
-	// A path to a file in which we will log our events.
-	inline std::ofstream m_oLogsFile;
+	// A file in which we will log our events.
+	inline std::fstream m_fLogsFile;
 
-	// A queue for events to be logged.
-	inline std::vector<CLogEvent> m_vecEvents;
+	// Path to logs file
+	inline std::filesystem::path m_fLogsPath;
 }
